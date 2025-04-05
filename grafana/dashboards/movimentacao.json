@@ -1,0 +1,111 @@
+{
+    "annotations": {
+      "list": []
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": null,
+    "iteration": 1627310470743,
+    "panels": [
+      {
+        "datasource": "Prometheus",
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "id": 4,
+        "options": {},
+        "targets": [
+          {
+            "expr": "residencia_movimento_detectado{comodo=~\"porta|janela\"}",
+            "format": "time_series",
+            "legendFormat": "{{comodo}}",
+            "refId": "A"
+          }
+        ],
+        "title": "Segurança - Portas/Janelas (Timeline)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": "Prometheus",
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 5,
+        "options": {
+          "tooltip": {
+            "mode": "single"
+          }
+        },
+        "targets": [
+          {
+            "expr": "sum(residencia_movimento_detectado) by (comodo)",
+            "format": "heatmap",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "title": "Heatmap - Uso dos Cômodos",
+        "type": "heatmap"
+      },
+      {
+        "datasource": "Prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "bars"
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        },
+        "id": 6,
+        "options": {
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom"
+          }
+        },
+        "targets": [
+          {
+            "expr": "sum(residencia_movimento_detectado{comodo=\"porta\"}) by (comodo)",
+            "format": "time_series",
+            "legendFormat": "Visitantes - {{comodo}}",
+            "refId": "A"
+          }
+        ],
+        "title": "Barras - Visitantes",
+        "type": "timeseries"
+      }
+    ],
+    "refresh": "1s",
+    "schemaVersion": 36,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "title": "Dashboard Movimentação",
+    "uid": "movimentacao",
+    "version": 1
+  }
+  

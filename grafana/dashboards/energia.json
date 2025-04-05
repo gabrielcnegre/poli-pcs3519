@@ -1,0 +1,112 @@
+{
+    "panels": [
+      {
+        "datasource": "Prometheus",
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "id": 1,
+        "options": {},
+        "targets": [
+          {
+            "expr": "residencia_consumo_kwh",
+            "format": "time_series",
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "title": "Consumo Energético (kWh)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": "Prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "bars"
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 2,
+        "options": {
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom"
+          }
+        },
+        "targets": [
+          {
+            "expr": "sum(residencia_consumo_kwh) by (comodo)",
+            "format": "time_series",
+            "legendFormat": "{{comodo}}",
+            "refId": "A"
+          }
+        ],
+        "title": "Consumo por Cômodo",
+        "type": "timeseries"
+      },
+      {
+        "datasource": "Prometheus",
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        },
+        "id": 3,
+        "options": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single"
+          }
+        },
+        "targets": [
+          {
+            "expr": "avg_over_time(residencia_consumo_kwh[1h])",
+            "format": "heatmap",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "title": "Heatmap - Horários Ideais (Consumo)",
+        "type": "heatmap"
+      }
+    ],
+    "refresh": "1s",
+    "schemaVersion": 36,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "title": "Dashboard Energia",
+    "uid": "energia",
+    "version": 1
+  }
+  
