@@ -1,114 +1,95 @@
 {
-    "panels": [
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {},
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 24,
-          "x": 0,
-          "y": 0
-        },
-        "id": 9,
-        "options": {
-          "legend": {
-            "displayMode": "list",
-            "placement": "bottom"
-          }
-        },
-        "targets": [
-          {
-            "expr": "residencia_voc_ppm",
-            "format": "time_series",
-            "legendFormat": "VOC - {{comodo}}",
-            "refId": "A"
-          },
-          {
-            "expr": "residencia_co2_ppm",
-            "format": "time_series",
-            "legendFormat": "CO2 - {{comodo}}",
-            "refId": "B"
-          }
-        ],
-        "title": "VOC e CO₂",
-        "type": "timeseries"
-      },
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "drawStyle": "bars"
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 0,
-          "y": 8
-        },
-        "id": 10,
-        "options": {
-          "legend": {
-            "displayMode": "list",
-            "placement": "bottom"
-          }
-        },
-        "targets": [
-          {
-            "expr": "avg(residencia_voc_ppm) by (comodo)",
-            "format": "time_series",
-            "legendFormat": "{{comodo}}",
-            "refId": "A"
-          }
-        ],
-        "title": "Barras - Cômodos Críticos (VOC)",
-        "type": "timeseries"
-      },
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {},
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 12,
-          "y": 8
-        },
-        "id": 11,
-        "options": {
-          "tooltip": {
-            "mode": "single"
-          }
-        },
-        "targets": [
-          {
-            "expr": "avg_over_time(residencia_voc_ppm[1h])",
-            "format": "heatmap",
-            "legendFormat": "",
-            "refId": "A"
-          }
-        ],
-        "title": "Heatmap - Horários Ideais (VOC)",
-        "type": "heatmap"
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 1,
+  "id": 1,
+  "iteration": 1744012641,
+  "panels": [
+    {
+      "title": "CO2 (Timeseries)",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "co2_level"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 12,
+        "h": 8
       }
-    ],
+    },
+    {
+      "title": "VOC (Timeseries)",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "voc_level"
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "title": "Médias por Período",
+      "type": "barchart",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "avg_over_time(co2_level[1h])"
+        },
+        {
+          "expr": "avg_over_time(voc_level[1h])"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "title": "Qualidade do Ar (Heatmap)",
+      "type": "heatmap",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "voc_level"
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      }
+    }
+  ],
     "refresh": "1s",
     "schemaVersion": 36,
-    "style": "dark",
-    "tags": [],
-    "templating": {
-      "list": []
-    },
-    "title": "Dashboard Qualidade Ar",
-    "uid": "ar",
-    "version": 1
-  }
-  
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-7d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Qualidade do Ar",
+  "uid": "ar",
+  "version": 1
+}

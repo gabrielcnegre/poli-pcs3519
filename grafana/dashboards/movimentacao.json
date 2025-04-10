@@ -1,111 +1,92 @@
 {
-    "annotations": {
-      "list": []
-    },
-    "editable": true,
-    "gnetId": null,
-    "graphTooltip": 0,
-    "id": null,
-    "iteration": 1627310470743,
-    "panels": [
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {},
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 0,
-          "y": 0
-        },
-        "id": 4,
-        "options": {},
-        "targets": [
-          {
-            "expr": "residencia_movimento_detectado{comodo=~\"porta|janela\"}",
-            "format": "time_series",
-            "legendFormat": "{{comodo}}",
-            "refId": "A"
-          }
-        ],
-        "title": "Segurança - Portas/Janelas (Timeline)",
-        "type": "timeseries"
-      },
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {},
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 12,
-          "y": 0
-        },
-        "id": 5,
-        "options": {
-          "tooltip": {
-            "mode": "single"
-          }
-        },
-        "targets": [
-          {
-            "expr": "sum(residencia_movimento_detectado) by (comodo)",
-            "format": "heatmap",
-            "legendFormat": "",
-            "refId": "A"
-          }
-        ],
-        "title": "Heatmap - Uso dos Cômodos",
-        "type": "heatmap"
-      },
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "drawStyle": "bars"
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 24,
-          "x": 0,
-          "y": 8
-        },
-        "id": 6,
-        "options": {
-          "legend": {
-            "displayMode": "list",
-            "placement": "bottom"
-          }
-        },
-        "targets": [
-          {
-            "expr": "sum(residencia_movimento_detectado{comodo=\"porta\"}) by (comodo)",
-            "format": "time_series",
-            "legendFormat": "Visitantes - {{comodo}}",
-            "refId": "A"
-          }
-        ],
-        "title": "Barras - Visitantes",
-        "type": "timeseries"
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 1,
+  "id": 4,
+  "iteration": 1744012644,
+  "panels": [
+    {
+      "title": "Status de Portas e Janelas",
+      "type": "stat",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "door_window_status"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 12,
+        "h": 8
       }
-    ],
+    },
+    {
+      "title": "Movimento Suspeito (Noite)",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "suspicious_movement_night"
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "title": "Contagem de Visitantes",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "visitors_count"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "title": "Ocupação por Cômodo",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "room_occupancy"
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      }
+    }
+  ],
     "refresh": "1s",
     "schemaVersion": 36,
-    "style": "dark",
-    "tags": [],
-    "templating": {
-      "list": []
-    },
-    "title": "Dashboard Movimentação",
-    "uid": "movimentacao",
-    "version": 1
-  }
-  
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-7d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Movimentação",
+  "uid": "movimentacao",
+  "version": 1
+}
