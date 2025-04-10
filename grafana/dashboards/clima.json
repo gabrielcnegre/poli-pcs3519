@@ -1,80 +1,92 @@
 {
-    "panels": [
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {},
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 24,
-          "x": 0,
-          "y": 0
-        },
-        "id": 7,
-        "options": {
-          "legend": {
-            "displayMode": "list",
-            "placement": "bottom"
-          }
-        },
-        "targets": [
-          {
-            "expr": "residencia_temperatura_celsius",
-            "format": "time_series",
-            "legendFormat": "Temp - {{comodo}}",
-            "refId": "A"
-          },
-          {
-            "expr": "residencia_umidade_percentual",
-            "format": "time_series",
-            "legendFormat": "Umidade - {{comodo}}",
-            "refId": "B"
-          }
-        ],
-        "title": "Temperatura e Umidade",
-        "type": "timeseries"
-      },
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {},
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 24,
-          "x": 0,
-          "y": 8
-        },
-        "id": 8,
-        "options": {
-          "tooltip": {
-            "mode": "single"
-          }
-        },
-        "targets": [
-          {
-            "expr": "avg_over_time(residencia_temperatura_celsius[1h])",
-            "format": "heatmap",
-            "legendFormat": "",
-            "refId": "A"
-          }
-        ],
-        "title": "Heatmap - Horários Críticos (Temperatura)",
-        "type": "heatmap"
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 1,
+  "id": 2,
+  "iteration": 1744012642,
+  "panels": [
+    {
+      "title": "Temperatura por Cômodo",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "temperature{room=~\".+\"}"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 12,
+        "h": 8
       }
-    ],
+    },
+    {
+      "title": "Temperatura (Heatmap)",
+      "type": "heatmap",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "temperature"
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "title": "Umidade por Cômodo",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "humidity{room=~\".+\"}"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "title": "Umidade (Heatmap)",
+      "type": "heatmap",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "humidity"
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      }
+    }
+  ],
     "refresh": "1s",
     "schemaVersion": 36,
-    "style": "dark",
-    "tags": [],
-    "templating": {
-      "list": []
-    },
-    "title": "Dashboard Condições Climáticas",
-    "uid": "clima",
-    "version": 1
-  }
-  
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-7d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Condições dos Cômodos",
+  "uid": "clima",
+  "version": 1
+}

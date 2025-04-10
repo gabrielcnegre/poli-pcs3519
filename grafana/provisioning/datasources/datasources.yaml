@@ -5,3 +5,38 @@ datasources:
     access: proxy
     url: http://prometheus:9090
     isDefault: true
+
+  - name: energy-mqtt
+    type: grafana-mqtt-datasource
+    access: proxy
+    isDefault: false
+    editable: true
+    basicAuth: false
+    useTLS: false
+    jsonData:
+      tlsSkipVerify: false
+      uri: tcp://${ENDERECO_DO_PROFESSOR}:1883
+      topic: garsoft/dev/je05/dados
+      username: automacao-2025
+    secureJsonData:
+      password: $__env{SENHA_MQTT}
+    readOnly: false
+      
+  - name: energy-postgres
+    type: grafana-postgresql-datasource
+    access: proxy
+    isDefault: false
+    editable: true
+    basicAuth: false
+    url: ${ENDERECO_DO_PROFESSOR}:5432
+    user: leitor
+    jsonData:
+      sslmode: disable
+      database: data-energia
+    secureJsonData:
+      password: $__env{SENHA_POSTGRES}
+    readOnly: false
+
+
+
+
