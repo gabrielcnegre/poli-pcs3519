@@ -1,108 +1,534 @@
 {
   "annotations": {
-    "list": []
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
   },
   "editable": true,
-  "gnetId": null,
-  "graphTooltip": 1,
-  "id": 3,
-  "iteration": 1744012643,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
   "panels": [
     {
-      "title": "Consumo Total",
-      "type": "timeseries",
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "grafana-mqtt-datasource",
+        "uid": "P15B0C5AAC17C27F5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "kWh"
+        },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "KWHT"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": []
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.6.0",
       "targets": [
         {
-          "expr": "energy_consumption_total"
+          "datasource": {
+            "type": "grafana-mqtt-datasource",
+            "uid": "P15B0C5AAC17C27F5"
+          },
+          "jsonPath": "$.KWHT",
+          "refId": "A",
+          "topic": "garsoft/dev/je05/dados"
         }
       ],
-      "gridPos": {
-        "x": 0,
-        "y": 0,
-        "w": 12,
-        "h": 8
-      }
+      "title": "Consumo de Energia Total (kWh)",
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "delimiter": ",",
+            "keepTime": false,
+            "replace": false,
+            "source": "DATA"
+          },
+          "topic": "series"
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "byVariable": false,
+            "include": {
+              "names": [
+                "Time",
+                "KWHT"
+              ]
+            }
+          }
+        }
+      ],
+      "type": "stat"
     },
     {
-      "title": "Pico de Consumo",
-      "type": "timeseries",
-      "datasource": "Prometheus",
-      "targets": [
-        {
-          "expr": "max_over_time(energy_consumption[1h])"
-        }
-      ],
+      "datasource": {
+        "type": "grafana-mqtt-datasource",
+        "uid": "P15B0C5AAC17C27F5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "R$"
+        },
+        "overrides": []
+      },
       "gridPos": {
+        "h": 9,
+        "w": 12,
         "x": 12,
-        "y": 0,
-        "w": 12,
-        "h": 8
-      }
-    },
-    {
-      "title": "Custo Estimado",
-      "type": "bargauge",
-      "datasource": "Prometheus",
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.6.0",
       "targets": [
         {
-          "expr": "energy_cost"
+          "datasource": {
+            "type": "grafana-mqtt-datasource",
+            "uid": "P15B0C5AAC17C27F5"
+          },
+          "jsonPath": "$.KWHT",
+          "refId": "A",
+          "topic": "garsoft/dev/je05/dados"
         }
       ],
+      "title": "Custo Total (R$)",
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "delimiter": ",",
+            "format": "json",
+            "jsonPaths": [
+              {
+                "path": "KWHT"
+              }
+            ],
+            "source": "DATA"
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Custo total",
+            "binary": {
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "KWHT"
+                }
+              },
+              "operator": "*",
+              "right": {
+                "fixed": "0.75"
+              }
+            },
+            "mode": "binary",
+            "reduce": {
+              "include": [
+                "KWHT"
+              ],
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-mqtt-datasource",
+        "uid": "P15B0C5AAC17C27F5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "watt"
+        },
+        "overrides": []
+      },
       "gridPos": {
+        "h": 9,
+        "w": 12,
         "x": 0,
-        "y": 8,
-        "w": 12,
-        "h": 8
-      }
-    },
-    {
-      "title": "Heatmap por Horário",
-      "type": "heatmap",
-      "datasource": "Prometheus",
+        "y": 9
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.0",
       "targets": [
         {
-          "expr": "energy_consumption"
+          "datasource": {
+            "type": "grafana-mqtt-datasource",
+            "uid": "P15B0C5AAC17C27F5"
+          },
+          "jsonPath": "$.PT",
+          "refId": "A",
+          "topic": "garsoft/dev/je05/dados"
         }
       ],
+      "title": "Distribuição de Carga (KW)",
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "delimiter": ",",
+            "format": "json",
+            "jsonPaths": [
+              {
+                "alias": "Potência",
+                "path": "PT"
+              }
+            ],
+            "source": "DATA"
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-mqtt-datasource",
+        "uid": "P15B0C5AAC17C27F5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
       "gridPos": {
+        "h": 9,
+        "w": 12,
         "x": 12,
-        "y": 8,
-        "w": 12,
-        "h": 8
-      }
-    },
-    {
-      "title": "Consumo por Cômodo",
-      "type": "timeseries",
-      "datasource": "Prometheus",
+        "y": 9
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.0",
       "targets": [
         {
-          "expr": "energy_consumption{room=~\".+\"}"
+          "datasource": {
+            "type": "grafana-mqtt-datasource",
+            "uid": "P15B0C5AAC17C27F5"
+          },
+          "jsonPath": "$.KWHT",
+          "refId": "A",
+          "topic": "garsoft/dev/je05/dados"
         }
       ],
-      "gridPos": {
-        "x": 0,
-        "y": 16,
-        "w": 24,
-        "h": 8
-      }
+      "title": "Consumo por Cômodo (KWH)",
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "delimiter": ",",
+            "format": "json",
+            "jsonPaths": [
+              {
+                "alias": "cozinha",
+                "path": "KWHA"
+              }
+            ],
+            "keepTime": false,
+            "replace": false,
+            "source": "DATA"
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "quarto",
+            "binary": {
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "cozinha"
+                }
+              },
+              "operator": "-",
+              "right": {
+                "fixed": "3"
+              }
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "banheiro",
+            "binary": {
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "cozinha"
+                }
+              },
+              "right": {
+                "fixed": "4"
+              }
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "unary": {
+              "fieldName": "cozinha",
+              "operator": "abs"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "sala",
+            "binary": {
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "cozinha"
+                }
+              },
+              "operator": "-",
+              "right": {
+                "fixed": "1.3"
+              }
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        }
+      ],
+      "type": "timeseries"
     }
   ],
-    "refresh": "1s",
-    "schemaVersion": 36,
-  "style": "dark",
+  "preload": false,
+  "schemaVersion": 41,
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-7d",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Energia",
-  "uid": "energia",
-  "version": 1
+  "title": "Consumo de Energia",
+  "uid": "consumo_energia",
+  "version": 41
 }
